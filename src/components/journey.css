@@ -313,3 +313,10 @@
   .journey-copy a,
   .journey-copy button { transition: background-color 180ms ease, color 180ms ease; }
 }
+
+@media (min-width: 768px) {
+  .journey-stage video {
+    object-fit: cover;
+    object-position: center;
+  }
+}
