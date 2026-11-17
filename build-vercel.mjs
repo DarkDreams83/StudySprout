@@ -4,3 +4,4 @@ await mkdir("dist", { recursive: true });
 await copyFile("index.html", "dist/index.html");
 await cp("css", "dist/css", { recursive: true });
 await cp("js", "dist/js", { recursive: true });
+await cp("media", "dist/media", { recursive: true });

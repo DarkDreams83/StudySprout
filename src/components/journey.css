@@ -243,3 +243,63 @@
   transform-origin: center top;
   will-change: transform;
 }
+.journey-home {
+  height: 100svh;
+  overflow: hidden;
+}
+
+.journey-home .app-main {
+  margin: 0;
+  padding: 0;
+}
+
+.study-journey {
+  height: 100svh;
+  overflow: hidden;
+}
+
+.study-journey .journey-stage {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  margin: 0;
+}
+
+.journey-stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.journey-chapters {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: thin;
+}
+
+.journey-chapter {
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding-top: 7rem;
+  padding-bottom: 3rem;
+}
+
+.journey-home .app-footer {
+  display: none;
+}
+
+@media (max-height: 650px), (max-width: 767px) {
+  .journey-chapter {
+    height: auto;
+    min-height: 100%;
+    padding-top: 6rem;
+  }
+
+  .study-journey h2 {
+    font-size: clamp(2.4rem, 8vw, 4rem);
+  }
+}

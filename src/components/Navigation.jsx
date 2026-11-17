@@ -7,7 +7,7 @@ const LINKS = [
   { href: "#/dashboard", label: "Dashboard", route: "/dashboard" },
 ];
 
-export default function Navigation({ currentRoute, theme, onThemeChange }) {
+export default function Navigation({ currentRoute }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -55,18 +55,7 @@ export default function Navigation({ currentRoute, theme, onThemeChange }) {
                 </li>
               </>
             )}
-            <li className="nav-item">
-              <button
-                className="theme-toggle nav-link"
-                type="button"
-                aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                onClick={onThemeChange}
-              >
-                <span aria-hidden="true">{theme === "dark" ? "☀" : "☾"}</span>
-                {theme === "dark" ? "Light mode" : "Dark mode"}
-              </button>
-            </li>
-          </ul>
+</ul>
         </div>
       </nav>
     </header>
