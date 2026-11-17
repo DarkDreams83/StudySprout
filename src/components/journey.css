@@ -245,3 +245,41 @@
     background-position: 57% center;
   }
 }
+
+.journey-home .site-header {
+  position: relative;
+  background: #171333;
+}
+
+.study-journey {
+  grid-template-rows: auto;
+  min-height: 0;
+  padding-bottom: clamp(3rem, 8vw, 7rem);
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.journey-video {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  background: #0c0a1a;
+}
+
+.journey-video video {
+  display: block;
+  width: min(100%, 920px, 115svh);
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+}
+
+.journey-intro {
+  max-width: 44rem;
+  padding-top: 0;
+}
+
+.journey-scene {
+  width: auto;
+  max-width: 38rem;
+  justify-self: start;
+}

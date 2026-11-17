@@ -1,11 +1,44 @@
+import { useEffect, useRef } from "react";
 import "./journey.css";
 
 export default function HomePage({ onLoadSamples, hasTasks }) {
+  const video = useRef(null);
+
+  useEffect(() => {
+    const element = video.current;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function updatePlayback() {
+      if (preference.matches) {
+        element.pause();
+      } else {
+        element.play().catch(() => {
+          // The native controls are available if autoplay is blocked.
+        });
+      }
+    }
+
+    updatePlayback();
+    preference.addEventListener("change", updatePlayback);
+    return () => preference.removeEventListener("change", updatePlayback);
+  }, []);
+
   return (
     <div className="study-journey">
-      <div className="journey-landscape" aria-hidden="true">
-        <div className="journey-art" />
-      </div>
+      <figure className="journey-video">
+        <video
+          ref={video}
+          src="media/homepage-reference.mp4"
+          poster="media/homepage-reference.webp"
+          aria-label="Illustrated mountain and waterfall website animation"
+          width="720"
+          height="540"
+          controls
+          playsInline
+          muted
+          loop
+          preload="metadata"
+        />
+      </figure>
       <section className="journey-intro">
         <h1>Find your<br />study rhythm.</h1>
         <p>Turn your notes into reviewers, flashcards, and practice quizzes. Give every study session a clear next step.</p>
