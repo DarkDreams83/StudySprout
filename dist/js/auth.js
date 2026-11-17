@@ -125,7 +125,7 @@
     installAccountStorage(account);
     authRoot.replaceChildren();
     appRoot.hidden = false;
-    renderAccountBar(account);
+    window.studySproutAccount = account;
     if (!appStarted) {
       appStarted = true;
       addAppScript();
@@ -137,7 +137,7 @@
     if (error) error.textContent = message;
   }
 
-  function showAuth(initialError) {
+  function showAuth(initialError, requestedMode) {
     appRoot.hidden = true;
     document.querySelector(".auth-account-bar")?.remove();
     authRoot.innerHTML = `
@@ -185,7 +185,7 @@
     const passwordInput = form.elements.namedItem("password");
     const nameInput = form.elements.namedItem("name");
     const confirmInput = form.elements.namedItem("confirmPassword");
-    let mode = accounts.length ? "signin" : "signup";
+    let mode = requestedMode || (accounts.length ? "signin" : "signup");
 
     function setMode(nextMode) {
       mode = nextMode;
@@ -271,6 +271,17 @@
     if (initialError) setError(initialError);
   }
 
+  window.addEventListener("studysprout-auth", (event) => {
+    if (event.detail === "signout") {
+      browserStorage.removeItem(ACTIVE_ACCOUNT_KEY);
+      window.location.reload();
+      return;
+    }
+    showAuth("", event.detail === "signup" ? "signup" : "signin");
+    window.scrollTo(0, 0);
+    authRoot.querySelector("input:not([type=hidden])")?.focus();
+  });
+
   function toBase64(bytes) {
     let binary = "";
     for (const byte of bytes) binary += String.fromCharCode(byte);
@@ -325,7 +336,7 @@
     if (activeAccount) {
       startApp(activeAccount);
     } else {
-      showAuth("");
+      startApp(null);
     }
   } catch (error) {
     accounts = [];

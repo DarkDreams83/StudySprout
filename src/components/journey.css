@@ -207,24 +207,6 @@
   .journey-water-upper { top: 30%; left: 20%; }
   .journey-water-lower { top: 69%; left: 58%; animation-delay: -.75s; }
 
-  @supports (animation-timeline: view()) {
-    .study-journey { view-timeline-name: --journey; }
-
-    .journey-stage {
-      position: sticky;
-      top: 0;
-      height: var(--scene-height);
-      margin-bottom: calc(-1 * var(--scene-height));
-    }
-
-    .journey-landscape {
-      height: 300%;
-      transform-origin: center top;
-      animation: journey-camera 1ms linear both;
-      animation-timeline: --journey;
-      animation-range: contain;
-    }
-  }
 
   ::view-transition-old(root) { animation: route-out 240ms ease-in both; }
   ::view-transition-new(root) { animation: route-in 440ms cubic-bezier(.22, .8, .24, 1) both; }
@@ -248,4 +230,16 @@
     inset: -2rem -7vw;
     background: radial-gradient(ellipse, #15112bf2, #15112bb3 55%, transparent 78%);
   }
+}
+
+.journey-animated .journey-stage {
+  position: sticky;
+  top: 0;
+  height: var(--scene-height);
+  margin-bottom: calc(-1 * var(--scene-height));
+}
+
+.journey-animated .journey-landscape {
+  transform-origin: center top;
+  will-change: transform;
 }

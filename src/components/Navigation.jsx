@@ -41,6 +41,20 @@ export default function Navigation({ currentRoute, theme, onThemeChange }) {
                 </a>
               </li>
             ))}
+            {window.studySproutAccount ? (
+              <li className="nav-item">
+                <button type="button" className="nav-link" onClick={() => window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "signout" }))}>Sign out</button>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <button type="button" className="nav-link" onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "signin" })); }}>Log in</button>
+                </li>
+                <li className="nav-item">
+                  <button type="button" className="nav-link" onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "signup" })); }}>Create account</button>
+                </li>
+              </>
+            )}
             <li className="nav-item">
               <button
                 className="theme-toggle nav-link"
