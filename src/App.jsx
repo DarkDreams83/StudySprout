@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 import Dashboard from "./components/Dashboard.jsx";
 import HomePage from "./components/HomePage.jsx";
 import Navigation from "./components/Navigation.jsx";
@@ -134,9 +135,27 @@ export default function App() {
   const [editingTask, setEditingTask] = useState(null);
 
   useEffect(() => {
-    const updateRoute = () => setRoute(routeFromHash());
+    let activeTransition;
+
+    function updateRoute() {
+      activeTransition?.skipTransition();
+      const commitRoute = () => {
+        flushSync(() => setRoute(routeFromHash()));
+        window.scrollTo({ top: 0, behavior: "instant" });
+      };
+
+      if (document.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        activeTransition = document.startViewTransition(commitRoute);
+        return;
+      }
+
+      commitRoute();
+    }
     window.addEventListener("hashchange", updateRoute);
-    return () => window.removeEventListener("hashchange", updateRoute);
+    return () => {
+      window.removeEventListener("hashchange", updateRoute);
+      activeTransition?.skipTransition();
+    };
   }, []);
 
   const subjects = useMemo(

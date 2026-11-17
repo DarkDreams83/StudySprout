@@ -51,7 +51,10 @@
   display: grid;
   grid-template-rows: 23fr 43fr 34fr;
   min-height: max(1440px, 170vw);
-  background: #171333 url("../../css/studysprout-landscape.webp") center / 100% 100% no-repeat;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: #171333;
 }
 
 .journey-intro,
@@ -76,7 +79,7 @@
 }
 
 .study-journey h1 {
-  font-size: clamp(4rem, 10vw, 11rem);
+  font-size: clamp(3.25rem, 8.4vw, 9rem);
 }
 
 .study-journey h2 {
@@ -148,8 +151,6 @@
 @media (max-width: 767px) {
   .study-journey {
     min-height: 1280px;
-    background-size: auto 100%;
-    background-position: 51% center;
   }
 
   .journey-home .navbar-collapse {
@@ -168,5 +169,79 @@
   .journey-scene {
     padding: .7rem;
     background: #171333c9;
+  }
+}
+
+.journey-landscape {
+  position: absolute;
+  inset: -6% -4%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.journey-art {
+  position: absolute;
+  inset: 0;
+  background: url("../../css/studysprout-landscape.webp") center / 100% 100% no-repeat;
+}
+
+.journey-intro p {
+  max-width: 36ch;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+}
+
+.study-journey .journey-button:hover {
+  background: #ffe4a7;
+}
+
+.journey-home :focus-visible {
+  outline: 2px solid #ffe4a7;
+  outline-offset: 4px;
+}
+
+@keyframes landscape-drift {
+  from { transform: translate3d(-1%, -.7%, 0) scale(1.01); }
+  to { transform: translate3d(1%, .5%, 0) scale(1.045); }
+}
+
+@keyframes landscape-parallax {
+  from { transform: translateY(0); }
+  to { transform: translateY(4%); }
+}
+
+@keyframes route-out {
+  to { opacity: 0; transform: translateY(-14px) scale(1.018); }
+}
+
+@keyframes route-in {
+  from { opacity: 0; transform: translateY(20px) scale(1.025); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .journey-art {
+    animation: landscape-drift 20s ease-in-out infinite alternate;
+  }
+
+  @supports (animation-timeline: scroll(root)) {
+    .journey-landscape {
+      animation: landscape-parallax 1ms linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  ::view-transition-old(root) {
+    animation: route-out 240ms ease-in both;
+  }
+
+  ::view-transition-new(root) {
+    animation: route-in 440ms cubic-bezier(.22, .8, .24, 1) both;
+  }
+}
+
+@media (max-width: 767px) {
+  .journey-art {
+    background-size: auto 100%;
+    background-position: 57% center;
   }
 }

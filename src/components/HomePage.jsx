@@ -3,15 +3,18 @@ import "./journey.css";
 export default function HomePage({ onLoadSamples, hasTasks }) {
   return (
     <div className="study-journey">
+      <div className="journey-landscape" aria-hidden="true">
+        <div className="journey-art" />
+      </div>
       <section className="journey-intro">
-        <h1>StudySprout</h1>
-        <p>Turn your notes into reviewers, explanations, and flashcards. Plan deadlines and track your progress.</p>
+        <h1>Find your<br />study rhythm.</h1>
+        <p>Turn your notes into reviewers, flashcards, and practice quizzes. Give every study session a clear next step.</p>
         <a href="#/study" className="journey-button">
-          Start studying <span aria-hidden="true">▸</span>
+          Open AI study tools <span aria-hidden="true">↗</span>
         </a>
       </section>
       <section className="journey-scene journey-planning">
-        <h2>Find your focus</h2>
+        <h2>Make room to focus</h2>
         <p>Keep assignments, exams, and readings together. Sort by deadline or priority to see what needs your attention first.</p>
         <a href="#/planner">Open your planner</a>
       </section>
