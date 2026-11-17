@@ -17,6 +17,7 @@ export default function StudyTools() {
     event.preventDefault();
     if (pending) return;
     const { mode, source } = Object.fromEntries(new FormData(event.currentTarget));
+    if (!source.trim()) { setError("Enter a topic or paste your notes."); return; }
     setPending(true);
     setResult(null);
     setError("");
@@ -25,24 +26,25 @@ export default function StudyTools() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mode, source }),
+        signal: AbortSignal.timeout(30000),
       });
       const data = await response.json().catch(() => null);
       if (!response.ok || !Array.isArray(data?.sections)) {
-        throw new Error(data?.error || "The study API is unavailable. For local testing, use Vercel Dev.");
+        throw new Error(data?.error || "Study tools are temporarily unavailable. Please try again later.");
       }
       setResult({ mode, sections: data.sections });
     } catch (failure) {
-      setError(failure.message);
+      setError(failure.name === "TimeoutError" ? "Generation took too long. Try a shorter topic." : failure.message);
     } finally {
       setPending(false);
     }
   }
 
   return (
-    <section className="mx-auto py-4" style={{ maxWidth: "48rem" }}>
+    <section className="study-tools mx-auto py-4" style={{ maxWidth: "48rem" }}>
       <h1>AI study tools</h1>
       <p>Turn a topic or your notes into study material.</p>
-      <form onSubmit={generate}>
+      <form onSubmit={generate} aria-busy={pending}>
         <fieldset disabled={pending}>
           <label className="form-label" htmlFor="study-mode">Study format</label>
           <select id="study-mode" name="mode" className="form-select mb-3">

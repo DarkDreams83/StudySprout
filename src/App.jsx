@@ -122,9 +122,6 @@ export default function App() {
   const [tasks, setTasks] = useState(initial.tasks);
   const [storageError, setStorageError] = useState(initial.error);
   const [route, setRoute] = useState(routeFromHash);
-  const [theme, setTheme] = useState(
-    () => document.documentElement.dataset.theme || "light",
-  );
   const [feedback, setFeedback] = useState("");
   const [filters, setFilters] = useState({
     query: "",
@@ -229,23 +226,6 @@ export default function App() {
     const nextTasks = [...SAMPLE_TASKS, ...tasks];
     if (commitTasks(nextTasks, "Sample tasks added to your planner.")) {
       window.location.hash = "/planner";
-    }
-  }
-
-  function changeTheme() {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = nextTheme;
-    document.querySelector('meta[name="theme-color"]').content =
-      nextTheme === "dark" ? "#111827" : "#f7f8fc";
-    setTheme(nextTheme);
-    try {
-      window.localStorage.setItem("sp-theme", nextTheme);
-    } catch (error) {
-      setFeedback(
-        error instanceof Error
-          ? `Theme changed, but your preference could not be saved: ${error.message}`
-          : "Theme changed, but your preference could not be saved.",
-      );
     }
   }
 
@@ -439,10 +419,10 @@ export default function App() {
     <div className={route === "/" ? "app-shell journey-home" : "app-shell"}>
       <Navigation
         currentRoute={route}
-        theme={theme}
-        onThemeChange={changeTheme}
+
+
       />
-      <main className="container app-main">
+      <main id="main-content" tabIndex={-1} className="container app-main">
         {storageError && (
           <div className="alert alert-danger" role="alert">
             Saved planner data could not be loaded. {storageError} Existing data

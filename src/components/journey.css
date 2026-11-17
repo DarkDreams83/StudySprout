@@ -60,7 +60,7 @@
 .journey-landscape {
   position: relative;
   height: 100%;
-  background: url("../../css/studysprout-landscape.webp") center / 100% 100% no-repeat;
+  background: #171333;
 }
 
 .journey-chapters {
@@ -334,4 +334,29 @@
   object-fit: cover;
   object-position: center;
   pointer-events: none;
+}
+
+.journey-home .navbar { padding-inline: clamp(1rem, 3vw, 4rem); }
+.journey-home .nav-link:hover,
+.journey-home .nav-link.active { background: #ffffff1c; }
+.journey-home .brand-mark { gap: 0; }
+.journey-copy { overflow: visible; }
+.journey-copy::before { background: radial-gradient(ellipse, #15112be8, #15112bb0 50%, transparent 76%); }
+.background-control {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.5rem;
+  z-index: 5;
+  padding: .55rem .85rem;
+  border: 1px solid #fff9f280;
+  border-radius: 30px;
+  background: #171333d9;
+  color: #fff9f2;
+  font: inherit;
+  font-size: .8rem;
+}
+.journey-chapter { padding-bottom: 5rem; }
+@media (prefers-reduced-motion: reduce) {
+  .journey-chapters { scroll-behavior: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
 }

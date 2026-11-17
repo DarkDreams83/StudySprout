@@ -1061,3 +1061,33 @@ textarea.form-control {
 [data-theme="dark"] .app-footer {
   border-color: #293244;
 }
+
+.app-shell { font-family: "DM Sans", system-ui, sans-serif; }
+.app-main { padding-block: 2rem 3rem; }
+.app-main h1 { letter-spacing: -.035em; text-wrap: balance; }
+.navbar-nav { align-items: center; }
+.site-header .nav-link { white-space: nowrap; margin-left: 2px; padding-inline: 10px !important; }
+.site-header button.nav-link { border: 0; background: transparent; }
+.site-header .nav-link:focus-visible { outline: 3px solid #a78bfa; outline-offset: 2px; }
+.study-tools > form { padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid #ddd7e9; border-radius: 16px; background: #fff; color: #27213b; }
+.study-tools details, .study-tools article { background: #fff; color: #27213b; overflow-wrap: anywhere; }
+.study-tools summary { cursor: pointer; font-weight: 600; }
+.study-tools [role="alert"] { color: #a42c43; }
+.task-content { min-width: 0; overflow-wrap: anywhere; }
+.form-control, .form-select { min-height: 44px; }
+.skip-link { position: fixed; left: 1rem; top: -6rem; z-index: 100; padding: .75rem 1rem; background: #fff; color: #171333; }
+.skip-link:focus { top: 1rem; }
+@media (max-width: 767px) {
+  .navbar-nav { align-items: stretch; }
+}
+
+.app-shell:not(.journey-home) .eyebrow,
+.app-shell:not(.journey-home) .optional-label,
+.app-shell:not(.journey-home) .empty-state p,
+.app-shell:not(.journey-home) .progress-caption,
+.app-shell:not(.journey-home) .muted-copy,
+.app-shell:not(.journey-home) .stats-grid p,
+.app-shell:not(.journey-home) .app-footer,
+.app-shell:not(.journey-home) .footer-note {
+  color: #53596c;
+}

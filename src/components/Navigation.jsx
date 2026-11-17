@@ -12,6 +12,7 @@ export default function Navigation({ currentRoute }) {
 
   return (
     <header className="site-header">
+      <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById("main-content")?.focus(); }}>Skip to content</a>
       <nav className="container navbar navbar-expand-md" aria-label="Main navigation">
         <a className="navbar-brand brand-mark" href="#/" aria-label="StudySprout home">
           <span className="sprout-logo" aria-hidden="true"><span /><span /></span>

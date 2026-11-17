@@ -445,3 +445,9 @@
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: none; }
 }
+
+.auth-form label { color: #ede5f7; }
+.auth-error { color: #ffb7bf; }
+.auth-card :focus-visible { outline: 3px solid #d2aff3; outline-offset: 3px; }
+.auth-card [hidden] { display: none !important; }
+.auth-card .auth-footnote { line-height: 1.6; }

@@ -12,20 +12,8 @@
     <link rel="stylesheet" href="css/auth.css" />
     <link rel="icon" href="data:," />
     <script>
-      try {
-        const savedTheme = localStorage.getItem("sp-theme");
-        document.documentElement.dataset.theme =
-          savedTheme === "light" || savedTheme === "dark"
-            ? savedTheme
-            : matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
-      } catch {
-        document.documentElement.dataset.theme =
-          matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      }
-      document.querySelector('meta[name="theme-color"]').content =
-        document.documentElement.dataset.theme === "dark" ? "#111827" : "#f7f8fc";
+      document.documentElement.dataset.theme = "light";
+      document.querySelector('meta[name="theme-color"]').content = "#171333";
     </script>
   </head>
   <body>

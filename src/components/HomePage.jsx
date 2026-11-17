@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./journey.css";
 
 export default function HomePage() {
   const chapters = useRef(null);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const root = chapters.current;
@@ -12,7 +13,7 @@ export default function HomePage() {
 
     function updatePlayback() {
       for (const video of videos) {
-        if (visible.has(video) && !preference.matches) {
+        if (visible.has(video) && !preference.matches && !paused) {
           video.play().catch(() => {});
         } else {
           video.pause();
@@ -28,16 +29,35 @@ export default function HomePage() {
       updatePlayback();
     }, { root, threshold: 0 });
 
-    videos.forEach((video) => observer.observe(video));
+    videos.forEach((video) => {
+      video.playbackRate = 0.5;
+      observer.observe(video);
+    });
+    const reveal = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting && !preference.matches) {
+          entry.target.querySelector(".journey-copy").animate(
+            [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "translateY(0)" }],
+            { duration: 600, easing: "cubic-bezier(.22,.8,.24,1)" },
+          );
+        }
+      }
+    }, { root, threshold: 0.65 });
+    root.querySelectorAll(".journey-chapter").forEach((section) => reveal.observe(section));
     preference.addEventListener("change", updatePlayback);
     return () => {
       observer.disconnect();
+      reveal.disconnect();
       preference.removeEventListener("change", updatePlayback);
       videos.forEach((video) => video.pause());
     };
-  }, []);
+  }, [paused]);
 return (
     <div className="study-journey">
+      <button type="button" className="background-control" aria-pressed={paused}
+        onClick={() => setPaused((value) => !value)}>
+        {paused ? "Play background" : "Pause background"}
+      </button>
 <div className="journey-chapters" ref={chapters} tabIndex={0} aria-label="StudySprout homepage">
         <section className="journey-chapter journey-intro" aria-labelledby="journey-title">
           <video className="journey-section-video" src="media/wind-top.mp4" poster="media/wind-top.webp" aria-hidden="true" muted loop playsInline preload="metadata" />
