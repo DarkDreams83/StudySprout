@@ -14,7 +14,7 @@ export default function Navigation({ currentRoute }) {
     <header className="site-header">
       <nav className="container navbar navbar-expand-md" aria-label="Main navigation">
         <a className="navbar-brand brand-mark" href="#/" aria-label="StudySprout home">
-          <span className="brand-icon" aria-hidden="true">S</span>
+          <span className="sprout-logo" aria-hidden="true"><span /><span /></span>
           StudySprout
         </a>
         <button

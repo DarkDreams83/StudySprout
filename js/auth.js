@@ -121,7 +121,26 @@
     document.body.insertBefore(bar, appRoot);
   }
 
+  let accountTransition;
+
+  function transitionAccount(update) {
+    accountTransition?.skipTransition();
+    if (document.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      accountTransition = document.startViewTransition(update);
+    } else {
+      update();
+    }
+  }
+
   function startApp(account) {
+    if (appStarted && authRoot.childElementCount) {
+      transitionAccount(() => displayApp(account));
+    } else {
+      displayApp(account);
+    }
+  }
+
+  function displayApp(account) {
     installAccountStorage(account);
     authRoot.replaceChildren();
     appRoot.hidden = false;
@@ -138,12 +157,19 @@
   }
 
   function showAuth(initialError, requestedMode) {
+    transitionAccount(() => {
+      displayAuth(initialError, requestedMode);
+      authRoot.querySelector('[data-mode][aria-selected="true"]')?.focus();
+    });
+  }
+
+  function displayAuth(initialError, requestedMode) {
     appRoot.hidden = true;
     document.querySelector(".auth-account-bar")?.remove();
     authRoot.innerHTML = `
       <main class="auth-page">
         <section class="auth-card" aria-labelledby="auth-title">
-          <p class="auth-brand">StudySprout</p>
+          <p class="auth-brand"><span class="sprout-logo" aria-hidden="true"><span></span><span></span></span>StudySprout</p>
           <h1 id="auth-title">Your study space</h1>
           <p class="auth-intro">Sign in to keep your study tasks in your own account, or create a new account to get started.</p>
           <div class="auth-tabs" role="tablist" aria-label="Account options">
@@ -268,6 +294,14 @@
     });
 
     setMode(mode);
+    tabs.forEach((tab) => tab.addEventListener("click", () => {
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        form.animate(
+          [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }],
+          { duration: 240, easing: "ease-out" },
+        );
+      }
+    }));
     if (initialError) setError(initialError);
   }
 

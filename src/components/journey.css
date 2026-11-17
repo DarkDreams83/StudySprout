@@ -303,3 +303,13 @@
     font-size: clamp(2.4rem, 8vw, 4rem);
   }
 }
+.journey-stage video {
+  object-fit: contain;
+  background: #171333;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .journey-chapters { scroll-behavior: smooth; }
+  .journey-copy a,
+  .journey-copy button { transition: background-color 180ms ease, color 180ms ease; }
+}

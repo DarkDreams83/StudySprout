@@ -5973,7 +5973,10 @@ function ep({ currentRoute: e }) {
   const [t, n] = V.useState(!1);
   return /* @__PURE__ */ a.jsx("header", { className: "site-header", children: /* @__PURE__ */ a.jsxs("nav", { className: "container navbar navbar-expand-md", "aria-label": "Main navigation", children: [
     /* @__PURE__ */ a.jsxs("a", { className: "navbar-brand brand-mark", href: "#/", "aria-label": "StudySprout home", children: [
-      /* @__PURE__ */ a.jsx("span", { className: "brand-icon", "aria-hidden": "true", children: "S" }),
+      /* @__PURE__ */ a.jsxs("span", { className: "sprout-logo", "aria-hidden": "true", children: [
+        /* @__PURE__ */ a.jsx("span", {}),
+        /* @__PURE__ */ a.jsx("span", {})
+      ] }),
       "StudySprout"
     ] }),
     /* @__PURE__ */ a.jsx(
