@@ -1091,3 +1091,59 @@ textarea.form-control {
 .app-shell:not(.journey-home) .footer-note {
   color: #53596c;
 }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bs-body-color: #f3edf9;
+  --bs-body-bg: #171333;
+  --bs-border-color: #4b4264;
+  --bs-secondary-color: #c4bbd3;
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] .app-shell { background-color: #171333; color: #f3edf9; }
+[data-theme="dark"] .site-header { background: #1c1732f5; border-color: #443953; }
+[data-theme="dark"] .brand-mark { color: #f3edf9; }
+
+[data-theme="dark"] .study-tools > form,
+[data-theme="dark"] .study-tools details,
+[data-theme="dark"] .study-tools article,
+[data-theme="dark"] .task-form,
+[data-theme="dark"] .task-panel,
+[data-theme="dark"] .dashboard-panel,
+[data-theme="dark"] .stat-card {
+  background: #231d38;
+  color: #f3edf9;
+  border-color: #4b4264;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background: #191429;
+  color: #f3edf9;
+  border-color: #655776;
+}
+
+[data-theme="dark"] .form-control::placeholder { color: #b5a9c6; }
+[data-theme="dark"] .app-shell:not(.journey-home) .eyebrow,
+[data-theme="dark"] .app-shell:not(.journey-home) .optional-label,
+[data-theme="dark"] .app-shell:not(.journey-home) .empty-state p,
+[data-theme="dark"] .app-shell:not(.journey-home) .progress-caption,
+[data-theme="dark"] .app-shell:not(.journey-home) .muted-copy,
+[data-theme="dark"] .app-shell:not(.journey-home) .stats-grid p,
+[data-theme="dark"] .app-shell:not(.journey-home) .app-footer,
+[data-theme="dark"] .app-shell:not(.journey-home) .footer-note,
+[data-theme="dark"] .form-label { color: #cfc5dd; }
+
+[data-theme="dark"] .app-footer { background: #1c1732; border-color: #443953; }
+[data-theme="dark"] .btn-primary { background: #cab2f1; border-color: #cab2f1; color: #21152f; }
+[data-theme="dark"] .btn-primary:hover { background: #ddc9fa; border-color: #ddc9fa; color: #21152f; }
+[data-theme="dark"] .btn-primary:disabled { background: #a491bd; border-color: #a491bd; color: #21152f; }
+[data-theme="dark"] .btn-link,
+[data-theme="dark"] .panel-heading a,
+[data-theme="dark"] .clear-filters { color: #ddc3ff; }
+[data-theme="dark"] .text-danger,
+[data-theme="dark"] .study-tools [role="alert"],
+[data-theme="dark"] .form-error { color: #ffafbc !important; }
+[data-theme="dark"] .task-item { background: #211b34; border-color: #4b4264; }
+[data-theme="dark"] .task-item:hover { background: #2a2241; }
