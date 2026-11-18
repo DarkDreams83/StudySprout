@@ -493,14 +493,16 @@ export default function App() {
               </div>
               <button
                 ref={addButton}
-                className="btn btn-primary add-task-button"
+                className="btn btn-primary add-task-fab"
                 type="button"
+                aria-label={formOpen ? "Close the add task form" : "Add task"}
                 aria-expanded={formOpen}
                 aria-controls="task-form"
                 disabled={Boolean(storageError)}
                 onClick={toggleForm}
               >
-                {formOpen ? "Close" : "+ Add task"}
+                <span className="fab-icon" aria-hidden="true">{formOpen ? "\u00d7" : "+"}</span>
+                <span className="fab-label">{formOpen ? "Close" : "Add task"}</span>
               </button>
             </div>
 

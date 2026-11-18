@@ -6722,13 +6722,17 @@ function mp() {
             "button",
             {
               ref: d,
-              className: "btn btn-primary add-task-button",
+              className: "btn btn-primary add-task-fab",
               type: "button",
+              "aria-label": x ? "Close the add task form" : "Add task",
               "aria-expanded": x,
               "aria-controls": "task-form",
               disabled: !!r,
               onClick: T,
-              children: x ? "Close" : "+ Add task"
+              children: [
+                /* @__PURE__ */ a.jsx("span", { className: "fab-icon", "aria-hidden": "true", children: x ? "\u00d7" : "+" }),
+                /* @__PURE__ */ a.jsx("span", { className: "fab-label", children: x ? "Close" : "Add task" })
+              ]
             }
           )
         ] }),

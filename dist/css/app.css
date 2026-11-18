@@ -1205,3 +1205,73 @@ textarea.form-control {
     animation: none;
   }
 }
+
+
+/* ---- Floating "Add task" button: follows the screen, bottom right ---- */
+.add-task-fab {
+  position: fixed;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 1030;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 1.3rem 0.7rem 0.75rem;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 10px 28px rgb(79 70 229 / 45%), 0 2px 6px rgb(0 0 0 / 22%);
+  animation: fab-pulse 2.2s ease-out 3;
+}
+
+.add-task-fab:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.add-task-fab .fab-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 22%);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+[data-theme="dark"] .add-task-fab .fab-icon {
+  background: rgb(33 21 47 / 14%);
+}
+
+[data-theme="dark"] .add-task-fab {
+  box-shadow: 0 10px 28px rgb(0 0 0 / 55%), 0 0 0 1px rgb(202 178 241 / 35%);
+}
+
+/* Leave room so the floating button never covers the last content or footer. */
+.app-shell:not(.journey-home) .app-main {
+  padding-bottom: 6.5rem;
+}
+
+@keyframes fab-pulse {
+  0% { outline: 0 solid rgb(99 102 241 / 55%); outline-offset: 0; }
+  70% { outline: 14px solid rgb(99 102 241 / 0%); outline-offset: 2px; }
+  100% { outline: 0 solid rgb(99 102 241 / 0%); outline-offset: 0; }
+}
+
+@media (max-width: 480px) {
+  .add-task-fab {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-task-fab {
+    animation: none;
+  }
+  .add-task-fab:hover:not(:disabled) {
+    transform: none;
+  }
+}
