@@ -4,12 +4,13 @@ StudySprout is a responsive study-task planner for students who need one place t
 
 ## Features
 
-- Landing page that explains the app and links to the planner and dashboard.
+- Landing page that explains the app and links to the planner and the AI study tools.
 - Responsive navigation and layouts for desktop, tablet, and mobile.
 - Add and edit tasks with required title, subject, and due date; optional time and notes; and a priority.
 - Search across task titles, subjects, and notes; filter by subject or status; sort by due date or priority.
 - Mark tasks complete, delete tasks with confirmation, and see empty, overdue, and save-feedback states.
-- Dashboard totals, due-soon and overdue counts, overall completion, subject progress, and upcoming tasks.
+- One Planner page that combines the progress dashboard (totals, due-soon and overdue counts, overall completion, and subject progress) with the task list.
+- An "Add task" button that opens the task form only when needed; the same form opens for editing and closes after saving, on Cancel, or with Escape.
 - Sample task data can be loaded explicitly from the landing page.
 - Download and restore all tasks, including completed tasks, with validated JSON backups from the planner.
 - Download the currently visible task list as a shareable PNG image.
@@ -27,7 +28,7 @@ StudySprout is a responsive study-task planner for students who need one place t
 - npm for dependency management
 - Git and GitHub for version control and source-code submission
 
-The app is divided into reusable components: `Navigation`, `HomePage`, `TaskForm`, `TaskToolbar`, `TaskList`/`TaskItem`, and `Dashboard`. Shared task parsing, filtering, sorting, overdue checks, and summaries live in `src/data/tasks.js`. The app uses hash navigation for Home, Planner, and Dashboard, so it works on static hosting without a server-side router.
+The app is divided into reusable components: `Navigation`, `HomePage`, `TaskForm`, `TaskToolbar`, `TaskList`/`TaskItem`, and `Dashboard` (the progress overview shown at the top of the Planner page). Shared task parsing, filtering, sorting, overdue checks, and summaries live in `src/data/tasks.js`. The app uses hash navigation for Home, AI study tools, and Planner (the old `#/dashboard` link opens the Planner), so it works on static hosting without a server-side router.
 
 ## Requirements checklist
 
@@ -60,7 +61,7 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite (by default `http://127.0.0.1:5173`). Continue as a guest or use the local sign-in flow, then navigate to Planner or Dashboard.
+Open the local URL printed by Vite (by default `http://127.0.0.1:5173`). Continue as a guest or use the local sign-in flow, then navigate to Planner.
 
 ## Test and build
 
@@ -73,11 +74,11 @@ npm run build
 
 ### Manual verification checklist
 
-1. Open Home, Planner, and Dashboard from the navigation on desktop and a narrow/mobile viewport; switch themes and reload to check the saved preference.
+1. Open Home, AI study tools, and Planner from the navigation on desktop and a narrow/mobile viewport; switch themes and reload to check the saved preference.
 2. Try submitting an empty task form; confirm required-field validation. Add a task and confirm it appears.
 3. Edit a task, mark it complete, and delete it; confirm the success feedback and delete confirmation.
 4. Search task title, subject, and notes; try every subject/status filter and each sort option.
-5. Reload the page and verify tasks persist; export and restore a task backup, export the visible task list as an image, and check the dashboard's totals and subject progress.
+5. Reload the page and verify tasks persist; export and restore a task backup, export the visible task list as an image, and check the progress totals and subject progress at the top of the Planner page. Click "+ Add task" to open the form, then try Cancel, Escape, and saving to confirm it closes; click Edit on a task to confirm the form reopens with its details.
 6. With no tasks, check the empty states and try the sample-data button.
 7. Test a due date in the past and a date within three days to verify overdue and due-soon indicators.
 
@@ -112,7 +113,7 @@ Do not commit `node_modules/`. Include the generated lockfile after running `npm
 
 1. Explain the student audience, study-planning problem, and intended benefit.
 2. Demonstrate navigation, adding a validated task, filtering/searching, completion, and persistence.
-3. Show the dashboard and responsive layout at desktop and mobile widths.
+3. Show the progress overview and task list on one page, open and close the Add task form, and show the responsive layout at desktop and mobile widths.
 4. Describe the component structure, React state/props/events, task utilities, Bootstrap, and `localStorage`.
 5. Explain testing, limitations (browser-local data and no cross-device sync), and deployment URL.
 

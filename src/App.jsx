@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import Dashboard from "./components/Dashboard.jsx";
 import HomePage from "./components/HomePage.jsx";
@@ -15,6 +15,7 @@ import {
 } from "./data/tasks.js";
 
 const STORAGE_KEY = "sp-tasks";
+const FEEDBACK_DURATION_MS = 2000;
 const SAMPLE_TASKS = [
   {
     title: "Review lecture notes",
@@ -114,7 +115,8 @@ function readInitialTasks() {
 
 function routeFromHash() {
   const route = window.location.hash.replace(/^#/, "");
-  return route === "/planner" || route === "/dashboard" || route === "/study" ? route : "/";
+  if (route === "/dashboard") return "/planner";
+  return route === "/planner" || route === "/study" ? route : "/";
 }
 
 export default function App() {
@@ -122,7 +124,12 @@ export default function App() {
   const [tasks, setTasks] = useState(initial.tasks);
   const [storageError, setStorageError] = useState(initial.error);
   const [route, setRoute] = useState(routeFromHash);
-  const [feedback, setFeedback] = useState("");
+  const [feedbackState, setFeedbackState] = useState({ text: "", id: 0 });
+  const feedback = feedbackState.text;
+  // Every message gets a new id, so a repeated message restarts the 2 second timer.
+  function setFeedback(text) {
+    setFeedbackState((current) => ({ text, id: current.id + 1 }));
+  }
   const [filters, setFilters] = useState({
     query: "",
     subject: "All",
@@ -130,6 +137,8 @@ export default function App() {
     sort: "due",
   });
   const [editingTask, setEditingTask] = useState(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const addButton = useRef(null);
 
   useEffect(() => {
     let activeTransition;
@@ -155,6 +164,12 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!feedbackState.text) return undefined;
+    const timer = window.setTimeout(() => setFeedback(""), FEEDBACK_DURATION_MS);
+    return () => window.clearTimeout(timer);
+  }, [feedbackState.id]);
+
   const subjects = useMemo(
     () => [...new Set(tasks.map((task) => task.subject))].sort((a, b) => a.localeCompare(b)),
     [tasks],
@@ -164,6 +179,27 @@ export default function App() {
     [tasks, filters],
   );
   const summary = useMemo(() => getTaskSummary(tasks), [tasks]);
+
+  useEffect(() => {
+    if (formOpen) {
+      document.getElementById("task-form")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [formOpen, editingTask]);
+
+  function closeForm() {
+    setEditingTask(null);
+    setFormOpen(false);
+    window.requestAnimationFrame(() => addButton.current?.focus());
+  }
+
+  function toggleForm() {
+    if (formOpen) {
+      closeForm();
+    } else {
+      setEditingTask(null);
+      setFormOpen(true);
+    }
+  }
 
   function commitTasks(nextTasks, message) {
     if (storageError) {
@@ -192,16 +228,18 @@ export default function App() {
         task.id === editingTask.id ? { ...task, ...values } : task,
       );
       if (commitTasks(nextTasks, "Task updated.")) {
-        setEditingTask(null);
+        closeForm();
         return true;
       }
       return false;
     }
 
-    return commitTasks(
+    const saved = commitTasks(
       [{ ...values, id: crypto.randomUUID(), done: false }, ...tasks],
       "Task added.",
     );
+    if (saved) closeForm();
+    return saved;
   }
 
   function toggleTask(task) {
@@ -219,7 +257,7 @@ export default function App() {
       tasks.filter((item) => item.id !== task.id),
       "Task deleted.",
     );
-    if (editingTask?.id === task.id) setEditingTask(null);
+    if (editingTask?.id === task.id) closeForm();
   }
 
   function loadSamples() {
@@ -273,7 +311,7 @@ export default function App() {
       if (!confirmed) return;
 
       if (commitTasks(importedTasks, "Your planner was restored from backup.")) {
-        setEditingTask(null);
+        closeForm();
       }
     } catch (error) {
       setFeedback(
@@ -431,7 +469,7 @@ export default function App() {
           </div>
         )}
         {feedback && (
-          <div className="alert alert-info feedback-alert" role="status" aria-live="polite">
+          <div key={feedbackState.id} className="alert alert-info feedback-alert" role="status" aria-live="polite">
             {feedback}
             <button
               type="button"
@@ -446,20 +484,38 @@ export default function App() {
           <HomePage onLoadSamples={loadSamples} hasTasks={tasks.length > 0} />
         )}
         {route === "/study" && <StudyTools />}
-        {route === "/dashboard" && (
-          <Dashboard tasks={tasks} summary={summary} dueSoon={dueSoon} />
-        )}
         {route === "/planner" && (
           <>
-            <h1 className="visually-hidden">Study planner</h1>
-            <div className="planner-grid">
-              <TaskForm
-                task={editingTask}
-                subjects={subjects}
+            <div className="page-heading">
+              <div>
+                <p className="eyebrow">YOUR STUDY PLAN</p>
+                <h1>Planner</h1>
+              </div>
+              <button
+                ref={addButton}
+                className="btn btn-primary add-task-button"
+                type="button"
+                aria-expanded={formOpen}
+                aria-controls="task-form"
                 disabled={Boolean(storageError)}
-                onSubmit={saveTask}
-                onCancel={() => setEditingTask(null)}
-              />
+                onClick={toggleForm}
+              >
+                {formOpen ? "Close" : "+ Add task"}
+              </button>
+            </div>
+
+            <Dashboard summary={summary} dueSoon={dueSoon} />
+
+            <div className={formOpen ? "planner-grid" : undefined}>
+              {formOpen && (
+                <TaskForm
+                  task={editingTask}
+                  subjects={subjects}
+                  disabled={Boolean(storageError)}
+                  onSubmit={saveTask}
+                  onCancel={closeForm}
+                />
+              )}
               <section className="task-panel" aria-label="Study tasks">
                 <TaskToolbar
                   tasks={tasks}
@@ -486,7 +542,7 @@ export default function App() {
                   onToggle={toggleTask}
                   onEdit={(task) => {
                     setEditingTask(task);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    setFormOpen(true);
                   }}
                   onDelete={deleteTask}
                 />

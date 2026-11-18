@@ -45,14 +45,21 @@ export default function TaskForm({ task, subjects, disabled, onSubmit, onCancel 
   }
 
   return (
-    <form className="task-form card" onSubmit={submit}>
+    <form
+      id="task-form"
+      className="task-form card"
+      onSubmit={submit}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && onCancel) onCancel();
+      }}
+    >
       <div className="card-body">
         <div className="form-heading">
           <div>
             <p className="eyebrow">TASK DETAILS</p>
             <h2>{task ? "Edit task" : "Add a task"}</h2>
           </div>
-          {task && (
+          {onCancel && (
             <button className="btn btn-sm btn-link" type="button" onClick={onCancel}>
               Cancel
             </button>
@@ -64,6 +71,7 @@ export default function TaskForm({ task, subjects, disabled, onSubmit, onCancel 
           <input
             id="task-title"
             className="form-control"
+            autoFocus
             name="title"
             value={values.title}
             onChange={updateField}

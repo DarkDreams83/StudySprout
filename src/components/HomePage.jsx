@@ -81,7 +81,7 @@ return (
           <div className="journey-copy">
             <h2 id="journey-about">About<br />StudySprout.</h2>
             <p>StudySprout helps students understand lessons, practice what they learn, and organize their workload.</p>
-            <p>Create AI reviewers, explanations, flashcards, quizzes, and summaries from a topic or your notes. Use the planner to track deadlines and the dashboard to see your progress.</p>
+            <p>Create AI reviewers, explanations, flashcards, quizzes, and summaries from a topic or your notes. Use the planner to track deadlines and see your progress.</p>
             <a href="#/study">Explore AI study tools</a>
           </div>
         </section>

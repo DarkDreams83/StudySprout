@@ -4,7 +4,6 @@ const LINKS = [
   { href: "#/", label: "Home", route: "/" },
   { href: "#/study", label: "AI study tools", route: "/study" },
   { href: "#/planner", label: "Planner", route: "/planner" },
-  { href: "#/dashboard", label: "Dashboard", route: "/dashboard" },
 ];
 
 export default function Navigation({ currentRoute }) {
@@ -47,14 +46,9 @@ export default function Navigation({ currentRoute }) {
                 <button type="button" className="nav-link" onClick={() => window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "signout" }))}>Sign out</button>
               </li>
             ) : (
-              <>
-                <li className="nav-item">
-                  <button type="button" className="nav-link" onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "signin" })); }}>Log in</button>
-                </li>
-                <li className="nav-item">
-                  <button type="button" className="nav-link" onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "signup" })); }}>Create account</button>
-                </li>
-              </>
+              <li className="nav-item">
+                <button type="button" className="nav-link" onClick={() => { setMenuOpen(false); window.dispatchEvent(new CustomEvent("studysprout-auth", { detail: "auth" })); }}>Sign in / Sign up</button>
+              </li>
             )}
 </ul>
         </div>

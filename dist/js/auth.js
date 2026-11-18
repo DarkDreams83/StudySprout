@@ -311,7 +311,7 @@
       window.location.reload();
       return;
     }
-    showAuth("", event.detail === "signup" ? "signup" : "signin");
+    showAuth("", event.detail === "signup" || event.detail === "signin" ? event.detail : undefined);
     window.scrollTo(0, 0);
     authRoot.querySelector("input:not([type=hidden])")?.focus();
   });

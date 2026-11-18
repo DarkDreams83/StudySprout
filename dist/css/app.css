@@ -1147,3 +1147,61 @@ textarea.form-control {
 [data-theme="dark"] .form-error { color: #ffafbc !important; }
 [data-theme="dark"] .task-item { background: #211b34; border-color: #4b4264; }
 [data-theme="dark"] .task-item:hover { background: #2a2241; }
+
+
+/* ---- Merged planner page: heading with the Add task button ---- */
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.page-heading h1 {
+  margin: 0;
+  color: #202940;
+  font-size: 30px;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+.page-heading .eyebrow {
+  margin-bottom: 4px;
+}
+
+.add-task-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.overview-panel {
+  margin-bottom: 24px;
+}
+
+.task-form {
+  scroll-margin-top: 90px;
+}
+
+[data-theme="dark"] .page-heading h1 {
+  color: #edf0f7;
+}
+
+
+/* Feedback messages fade out as they are removed after 2 seconds. */
+.feedback-alert {
+  animation: feedback-fade 2s ease forwards;
+}
+
+@keyframes feedback-fade {
+  0% { opacity: 0; transform: translateY(-6px); }
+  10% { opacity: 1; transform: none; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback-alert {
+    animation: none;
+  }
+}
